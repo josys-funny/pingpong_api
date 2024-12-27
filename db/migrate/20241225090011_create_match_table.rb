@@ -1,6 +1,6 @@
-class CreateMatchHistories < ActiveRecord::Migration[8.0]
+class CreateMatchTable < ActiveRecord::Migration[8.0]
   def change
-    create_table :match_histories do |t|
+    create_table :matches do |t|
       t.integer :winner # 0: first team, 1: second team
       t.integer :type # 0: single, 1: double
       t.integer :first_team_score
