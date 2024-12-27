@@ -5,14 +5,15 @@ class UsersController < ApplicationController
 
   # GET /users
   def index
-    @users = User.all
+    @users = User.limit(params[:limit]).offset(params[:offset]).order(elo: :desc, total_match: :asc, total_win_match: :desc, updated_at: :desc).all
 
     render(json: @users)
   end
 
   # GET /users/1
   def show
-    render(json: @user)
+    rank = User.all.order(elo: :desc, total_match: :asc, total_win_match: :desc, updated_at: :desc).index(@user) + 1
+    render(json: { user: @user, rank: rank })
   end
 
   # POST /users

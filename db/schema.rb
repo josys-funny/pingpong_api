@@ -63,7 +63,7 @@ ActiveRecord::Schema[8.0].define(version: 2024_12_27_074230) do
     t.string "team"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.integer "style"
+    t.integer "style", default: 0
     t.index ["name"], name: "index_users_on_name", unique: true
   end
 

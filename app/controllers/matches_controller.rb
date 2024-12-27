@@ -5,8 +5,8 @@ class MatchesController < ApplicationController
 
   # GET /matches
   def index
-    @matches = Match.all
-
+    @user = User.find(params.expect(:user_id))
+    @matches = @user.matches.limit(params[:limit]).offset(params[:offset]).order(created_at: :desc).all
     render(json: @matches)
   end
 

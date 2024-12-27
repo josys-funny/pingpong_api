@@ -1,8 +1,9 @@
 # frozen_string_literal: true
 
 Rails.application.routes.draw do
-  resources :matches
-  resources :users
+  resources :users do
+    resources :matches, only: [:index]
+  end
 
   get 'api_docs' => 'api_docs#index'
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
