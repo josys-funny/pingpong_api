@@ -1,14 +1,12 @@
 class CreateMatchHistories < ActiveRecord::Migration[8.0]
   def change
     create_table :match_histories do |t|
-      t.references :first_player, foreign_key: { to_table: :users }
-      t.references :second_player, foreign_key: { to_table: :users }
-      t.integer :first_player_points
-      t.integer :second_player_points
-      t.integer :first_player_elo
-      t.integer :second_player_elo
+      t.integer :winner # 0: first team, 1: second team
+      t.integer :type # 0: single, 1: double
+      t.integer :first_team_score
+      t.integer :second_team_score
       t.integer :elo_change
-      t.references :winner, foreign_key: { to_table: :users }
+      t.integer :status # 0: ongoing, 1: finished
       t.timestamps
     end
   end

@@ -51,3 +51,5 @@ group :development, :test do
   gem 'rubocop-performance', require: false
   gem 'rubocop-rails', require: false
 end
+
+gem 'rswag-specs'
