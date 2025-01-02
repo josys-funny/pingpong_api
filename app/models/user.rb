@@ -6,6 +6,7 @@ class User < ApplicationRecord
 
   has_many :match_users, dependent: :destroy
   has_many :matches, through: :match_users
+  has_many :match_sets, through: :matches
 
   enum :style, { right_hand: 0, left_hand: 1 }
 

@@ -4,6 +4,7 @@ Rails.application.routes.draw do
   resources :users do
     resources :matches, only: [:index]
   end
+  resources :matches, only: %i[show create update destroy]
 
   get 'api_docs' => 'api_docs#index'
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
