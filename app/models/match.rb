@@ -18,13 +18,29 @@ class Match < ApplicationRecord
   validate :validate_match_users
 
   before_validation :set_best_of, on: %i[create]
-  before_validation :set_winner, on: %i[create update]
+  before_validation :set_status, on: %i[create update]
   before_validation :set_elo_change, on: %i[create update]
   before_validation :set_match_type, on: %i[create]
 
+  after_destroy :update_user_data_after_destroy, if: :completed?
   after_save :update_user_data, if: :completed?
 
+  def set_winner
+    return unless match_sets.present? && match_sets.all?(&:completed?)
+
+    first_team_wins = match_sets.count(&:first_team_wins?)
+    second_team_wins = match_sets.size - first_team_wins
+
+    self.first_team_score = first_team_wins
+    self.second_team_score = second_team_wins
+    self.winner = first_team_wins > second_team_wins ? :first_side : :second_side
+  end
+
   private
+
+  def set_status
+    self.status = match_sets.present? && match_sets.all?(&:completed?) ? :completed : :pending
+  end
 
   def update_user_data
     match_users.each do |match_user|
@@ -36,23 +52,22 @@ class Match < ApplicationRecord
     end
   end
 
+  def update_user_data_after_destroy
+    match.match_users.each do |match_user|
+      user = match_user.user
+      user.total_match -= 1
+      user.total_win_match -= 1 if match_user.team_side == winner.to_s
+      user.elo = user.elo + elo_change * (match_user.team_side == winner.to_s ? -1 : 1)
+      user.save!
+    end
+  end
+
   def set_best_of
     self.best_of = match_sets.size if match_sets.present?
     return unless best_of.even?
 
     errors.add(:best_of, 'must be an odd number')
     throw(:abort)
-  end
-
-  def set_winner
-    return unless match_sets.present? && match_sets.all?(&:completed?)
-
-    first_team_wins = match_sets.count(&:first_team_wins?)
-    second_team_wins = match_sets.size - first_team_wins
-
-    self.first_team_score = first_team_wins
-    self.second_team_score = second_team_wins
-    self.winner = first_team_wins > second_team_wins ? :first_side : :second_side
   end
 
   def set_elo_change
