@@ -1,3 +1,50 @@
+GIT
+  remote: https://github.com/rspec/rspec-core.git
+  revision: aec5f49485d97908183dbe790a7fefb8baaa8091
+  branch: main
+  specs:
+    rspec-core (3.14.0.pre)
+      rspec-support (= 3.14.0.pre)
+
+GIT
+  remote: https://github.com/rspec/rspec-expectations.git
+  revision: ba31727e856de42abb5a2e6566855f0831e1a619
+  branch: main
+  specs:
+    rspec-expectations (3.14.0.pre)
+      diff-lcs (>= 1.2.0, < 2.0)
+      rspec-support (= 3.14.0.pre)
+
+GIT
+  remote: https://github.com/rspec/rspec-mocks.git
+  revision: 3caa9ac841e146d618421f870077c0ad684e6cad
+  branch: main
+  specs:
+    rspec-mocks (3.14.0.pre)
+      diff-lcs (>= 1.2.0, < 2.0)
+      rspec-support (= 3.14.0.pre)
+
+GIT
+  remote: https://github.com/rspec/rspec-rails.git
+  revision: 607293139d952e0344564afeaabfb2789701492c
+  branch: main
+  specs:
+    rspec-rails (7.2.0.pre)
+      actionpack (>= 7.0)
+      activesupport (>= 7.0)
+      railties (>= 7.0)
+      rspec-core (~> 3.13)
+      rspec-expectations (~> 3.13)
+      rspec-mocks (~> 3.13)
+      rspec-support (~> 3.13)
+
+GIT
+  remote: https://github.com/rspec/rspec-support.git
+  revision: 393117fb4c8874918044d9ed5d3ff3c482fd41ec
+  branch: main
+  specs:
+    rspec-support (3.14.0.pre)
+
 GEM
   remote: https://rubygems.org/
   specs:
@@ -93,6 +140,7 @@ GEM
     debug (1.10.0)
       irb (~> 1.10)
       reline (>= 0.3.8)
+    diff-lcs (1.5.1)
     dotenv (3.1.7)
     drb (2.2.1)
     ed25519 (1.3.0)
@@ -226,14 +274,17 @@ GEM
     regexp_parser (2.10.0)
     reline (0.6.0)
       io-console (~> 0.5)
-    rspec-core (3.13.2)
-      rspec-support (~> 3.13.0)
-    rspec-support (3.13.2)
+    rswag-api (2.16.0)
+      activesupport (>= 5.2, < 8.1)
+      railties (>= 5.2, < 8.1)
     rswag-specs (2.16.0)
       activesupport (>= 5.2, < 8.1)
       json-schema (>= 2.2, < 6.0)
       railties (>= 5.2, < 8.1)
       rspec-core (>= 2.14)
+    rswag-ui (2.16.0)
+      actionpack (>= 5.2, < 8.1)
+      railties (>= 5.2, < 8.1)
     rubocop (1.69.2)
       json (~> 2.3)
       language_server-protocol (>= 3.17.0)
@@ -323,10 +374,16 @@ DEPENDENCIES
   pg (~> 1.1)
   puma (>= 5.0)
   rails (~> 8.0.1)
+  rspec-core!
+  rspec-expectations!
+  rspec-mocks!
+  rspec-rails!
+  rspec-support!
+  rswag-api
   rswag-specs
+  rswag-ui
   rubocop
   rubocop-performance
-  rubocop-rails
   rubocop-rails-omakase
   solid_cable
   solid_cache

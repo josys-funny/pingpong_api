@@ -1,0 +1,105 @@
+---
+openapi: 3.0.1
+info:
+  title: API V1
+  version: v1
+paths:
+  "/users":
+    get:
+      summary: List users
+      tags:
+      - Users
+      parameters:
+      - name: limit
+        in: query
+        schema:
+          type: integer
+      - name: offset
+        in: query
+        schema:
+          type: integer
+      responses:
+        '200':
+          description: users found
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  properties:
+                    id:
+                      type: integer
+                    name:
+                      type: string
+                    elo:
+                      type: integer
+                    win_streak:
+                      type: integer
+                    total_match:
+                      type: integer
+                    total_win_match:
+                      type: integer
+                    team:
+                      type: string
+                    created_at:
+                      type: string
+                      format: date-time
+                    updated_at:
+                      type: string
+                      format: date-time
+                    style:
+                      type: string
+                      enum:
+                      - forehand
+                      - backhand
+        '500':
+          description: server error
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/error"
+    post:
+      summary: Creates a user
+      tags:
+      - Users
+      parameters: []
+      responses:
+        '201':
+          description: user created
+        '422':
+          description: unprocessable entity
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                style:
+                  type: string
+                  enum:
+                  - forehand
+                  - backhand
+                team:
+                  type: string
+              required:
+              - name
+              - style
+              - team
+components:
+  schemas:
+    error:
+      type: object
+      properties:
+        status:
+          type: integer
+        error:
+          type: string
+        exception:
+          type: string
+servers:
+- url: https://{defaultHost}
+  variables:
+    defaultHost:
+      default: www.example.com
