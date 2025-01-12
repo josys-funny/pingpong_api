@@ -1,0 +1,29 @@
+name: Deploy
+
+on:
+  workflow_call:
+    inputs:
+      ECR_REPO_NAME:
+        required: true
+        type: string
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Add VERSION_LABEL with commit short sha
+        run: echo "VERSION_LABEL=`echo ${GITHUB_SHA} | cut -c1-8`" >> $GITHUB_ENV
+
+      - name: Run container on server
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{ secrets.HOST_IP }}
+          username: ${{ secrets.HOST_USERNAME }}
+          key: ${{ secrets.KEY }}
+          port: ${{ secrets.PORT }}
+          script: |
+            echo "${{ secrets.GH_PASSWORD }}" | docker login ghcr.io -u "${{ secrets.GH_USERNAME }}" --password-stdin
+            docker pull ghcr.io/josys-funny/${{ inputs.ECR_REPO_NAME }}:${{ env.VERSION_LABEL }}
+            docker stop pingpong-api-${{ inputs.ECR_REPO_NAME }} > /dev/null 2>&1 || echo command failed $?
+            docker rm pingpong-api-${{ inputs.ECR_REPO_NAME }} > /dev/null 2>&1 || echo command failed $?
+            docker run -d --name pingpong-api-${{ inputs.ECR_REPO_NAME }} -p 5000:80 ghcr.io/josys-funny/${{ inputs.ECR_REPO_NAME }}:${{ env.VERSION_LABEL }}

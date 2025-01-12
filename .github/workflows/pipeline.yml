@@ -1,0 +1,21 @@
+name: Root pipeline
+
+on:
+  workflow_run:
+    workflows: ["CI"]
+    types:
+      - completed
+
+jobs:
+  build:
+    uses: ./.github/workflows/build.yml
+    with:
+      ECR_REPO_NAME: pingpong_api
+    secrets: inherit
+
+  deploy:
+    needs: [build]
+    uses: ./.github/workflows/deploy.yml
+    with:
+      ECR_REPO_NAME: pingpong_api
+    secrets: inherit
