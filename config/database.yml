@@ -21,28 +21,28 @@ default: &default
 development:
   <<: *default
   # database: pingpong_elo_board_development
-  host: <%= ENV["PINGPONG_ELO_BOARD_DATABASE_HOST"] %>
-  port: <%= ENV["PINGPONG_ELO_BOARD_DATABASE_PORT"] %>
-  database: <%= ENV["PINGPONG_ELO_BOARD_DATABASE_DATABASE"] %>
-  username: <%= ENV["PINGPONG_ELO_BOARD_DATABASE_USERNAME"] %>
-  password: <%= ENV["PINGPONG_ELO_BOARD_DATABASE_PASSWORD"] %>
+  host: <%= Rails.application.credentials.dig(:development, :database, :host) %>
+  port: <%= Rails.application.credentials.dig(:development, :database, :port) %>
+  database: <%= Rails.application.credentials.dig(:development, :database, :database) %>
+  username: <%= Rails.application.credentials.dig(:development, :database, :username) %>
+  password: <%= Rails.application.credentials.dig(:development, :database, :password) %>
 
 test:
   <<: *default
-  host: <%= ENV["PINGPONG_ELO_BOARD_DATABASE_HOST"] %>
-  port: <%= ENV["PINGPONG_ELO_BOARD_DATABASE_PORT"] %>
-  database: <%= ENV["PINGPONG_ELO_BOARD_DATABASE_TEST_DATABASE"] || "pingpong_elo_board_test" %>
-  username: <%= ENV["PINGPONG_ELO_BOARD_DATABASE_USERNAME"] %>
-  password: <%= ENV["PINGPONG_ELO_BOARD_DATABASE_PASSWORD"] %>
+  host: <%= Rails.application.credentials.dig(:test, :database, :host) %>
+  port: <%= Rails.application.credentials.dig(:test, :database, :port) %>
+  database: <%= Rails.application.credentials.dig(:test, :database, :database) %>
+  username: <%= Rails.application.credentials.dig(:test, :database, :username) %>
+  password: <%= Rails.application.credentials.dig(:test, :database, :password) %>
 
 production:
   primary: &primary_production
     <<: *default
-    host: <%= ENV["PINGPONG_ELO_BOARD_DATABASE_HOST"] %>
-    port: <%= ENV["PINGPONG_ELO_BOARD_DATABASE_PORT"] %>
-    database: <%= ENV["PINGPONG_ELO_BOARD_DATABASE_DATABASE"] %>
-    username: <%= ENV["PINGPONG_ELO_BOARD_DATABASE_USERNAME"] %>
-    password: <%= ENV["PINGPONG_ELO_BOARD_DATABASE_PASSWORD"] %>
+    host: <%= Rails.application.credentials.dig(:production, :database, :host) %> 
+    port: <%= Rails.application.credentials.dig(:production, :database, :port) %>
+    database: <%= Rails.application.credentials.dig(:production, :database, :database) %>
+    username: <%= Rails.application.credentials.dig(:production, :database, :username) %>
+    password: <%= Rails.application.credentials.dig(:production, :database, :password) %>
   cache:
     <<: *primary_production
     database: pingpong_elo_board_production_cache
