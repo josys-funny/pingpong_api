@@ -22,7 +22,7 @@ jobs:
           key: ${{ secrets.KEY }}
           port: ${{ secrets.PORT }}
           script: |
-            echo "${{ secrets.GH_PASSWORD }}" | docker login ghcr.io -u "${{ secrets.GH_USERNAME }}" --password-stdin
+            echo "${{ secrets.GITHUB_TOKEN }}" | docker login ghcr.io -u "${{ github.actor }}" --password-stdin
             docker pull ghcr.io/josys-funny/${{ inputs.ECR_REPO_NAME }}:${{ env.VERSION_LABEL }}
             docker stop pingpong-api-${{ inputs.ECR_REPO_NAME }} > /dev/null 2>&1 || echo command failed $?
             docker rm pingpong-api-${{ inputs.ECR_REPO_NAME }} > /dev/null 2>&1 || echo command failed $?
