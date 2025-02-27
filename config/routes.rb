@@ -1,6 +1,15 @@
 # frozen_string_literal: true
 
 Rails.application.routes.draw do
+  devise_for :admins, defaults: { format: :json }, controllers: {
+    sessions: 'admins/sessions'
+  }
+  devise_for :users, defaults: { format: :json }, controllers: {
+    sessions: 'admins/sessions'
+  }
+  devise_for :matches, defaults: { format: :json }, controllers: {
+    sessions: 'admins/sessions'
+  }
   mount Rswag::Ui::Engine => '/api-docs'
   mount Rswag::Api::Engine => '/api-docs'
   resources :users do
